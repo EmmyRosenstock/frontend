@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+
+import React, { useState } from 'react';
+import Login from './componentes/login';
+import Welcome from './componentes/Welcome';
 
 function App() {
+  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(null);
+
+  const handleLogout = () => {
+    setToken(null);
+    setUser(null);
+    // Você pode adicionar uma requisição de logout aqui, se necessário
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {!token ? (
+        <Login setToken={setToken} setUser={setUser} />
+      ) : (
+        <Welcome user={user} onLogout={handleLogout} />
+      )}
     </div>
   );
 }
