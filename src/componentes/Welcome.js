@@ -1,10 +1,18 @@
 import React from 'react';
 
-const Welcome = ({ user, onLogout }) => {
+const Welcome = ({ user }) => {
+  console.log('Usuário recebido:', user);  // Verifica os dados recebidos do usuário
+
+  const handleLogout = () => {
+    document.cookie = "usuario_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.reload();
+  };
+
   return (
-    <div>
-      <h1>Bem-vindo, {user.name}!</h1>
-      <button onClick={onLogout}>Logout</button>
+    <div className="welcome">
+      <h2>Bem-vindo, {user.name ? user.name : 'Usuário'}!</h2>
+      <p>Você está conectado desde {user.loginTime ? user.loginTime : 'N/A'}</p>
+      <button onClick={handleLogout}>Sair</button>
     </div>
   );
 };

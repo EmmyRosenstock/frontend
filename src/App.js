@@ -1,27 +1,32 @@
-
 import React, { useState } from 'react';
-import Login from './componentes/login';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import LoginForm from './componentes/login';
 import Welcome from './componentes/Welcome';
+import Register from './componentes/Register';
 
-function App() {
-  const [token, setToken] = useState(null);
+const App = () => {
   const [user, setUser] = useState(null);
 
-  const handleLogout = () => {
-    setToken(null);
-    setUser(null);
-    // Você pode adicionar uma requisição de logout aqui, se necessário
+  const handleLogin = (data) => {
+    setUser(data.user);
   };
 
   return (
-    <div className="App">
-      {!token ? (
-        <Login setToken={setToken} setUser={setUser} />
-      ) : (
-        <Welcome user={user} onLogout={handleLogout} />
-      )}
-    </div>
+    <Router>
+      <div className="app">
+        <Routes>
+          <Route path="/" element={user ? <Welcome user={user} /> : <LoginForm onLogin={handleLogin} />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+        {!user && (
+          <span>
+            <p>Ainda não é cadastrado?</p>
+            <Link to="/register">Cadastre-se aqui</Link>
+          </span>
+        )}
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
